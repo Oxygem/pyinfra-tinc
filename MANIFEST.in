@@ -1,0 +1,2 @@
+include pyinfra_tinc/scripts/*
+include pyinfra_tinc/templates/*

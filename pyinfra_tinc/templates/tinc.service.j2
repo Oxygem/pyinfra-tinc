@@ -1,0 +1,14 @@
+[Unit]
+Description=Tinc net {{ netname }}
+Documentation=info:tinc
+Documentation=man:tinc(8) man:tinc.conf(5)
+Documentation=http://tinc-vpn.org/docs/
+
+[Service]
+Type=simple
+WorkingDirectory={{ host.data.tinc_install_prefix }}/etc/tinc/{{ netname }}
+ExecStart={{ host.data.tinc_install_prefix }}/sbin/tincd -n {{ netname }} -D
+KillMode=mixed
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=5

@@ -1,0 +1,6 @@
+Name={{ get_host_name(host) }}
+{% for other_host in state.inventory -%}
+    {% if other_host != host -%}
+        ConnectTo={{ get_host_name(other_host) }}
+    {%- endif %}
+{% endfor %}

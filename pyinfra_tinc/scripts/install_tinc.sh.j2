@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -e
+
+cd {{ temp_directory }}
+tar -xf {{ temp_filename }}
+cd tinc-{{ host.data.tinc_version }}
+
+./configure --prefix {{ host.data.tinc_install_prefix }}
+make
+make install
+
+cd {{ temp_directory }}
+rm -rf tinc-{{ host.data.tinc_version }}

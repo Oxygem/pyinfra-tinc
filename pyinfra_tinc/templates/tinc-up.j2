@@ -1,0 +1,4 @@
+#!/bin/sh
+
+ip link set $INTERFACE up
+ip addr add {{ host_interface_ip }} dev $INTERFACE

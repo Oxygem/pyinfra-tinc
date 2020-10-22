@@ -1,0 +1,4 @@
+#!/bin/sh
+
+ip addr del {{ host_interface_ip }} dev $INTERFACE
+ip link set $INTERFACE down

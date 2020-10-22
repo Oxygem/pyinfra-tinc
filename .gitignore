@@ -1,3 +1,6 @@
 *.egg-info
-pyinfra-debug.log
+build/
+dist/
+
 .vagrant*/
+pyinfra-debug.log

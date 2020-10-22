@@ -1,1 +1,3 @@
 *.egg-info
+pyinfra-debug.log
+.vagrant*/

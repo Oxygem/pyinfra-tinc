@@ -1,6 +1,7 @@
 import re
 
 from io import BytesIO
+from ipaddress import ip_interface, ip_network
 from os import path
 
 from pkg_resources import resource_filename
@@ -81,7 +82,11 @@ def install_tinc(state=None, host=None):
 
 
 @deploy('Configure Tinc VPN', data_defaults=DEFAULTS)
-def configure_tinc(netname, network_subnet, host_subnet, host_address, state=None, host=None):
+def configure_tinc(
+    netname, network_subnet,
+    host_network_address, host_public_address,
+    state=None, host=None,
+):
     files.directory(
         name=f'Create the {host.data.tinc_install_prefix}/var/run directory',
         path=f'{host.data.tinc_install_prefix}/var/run',
@@ -107,19 +112,29 @@ def configure_tinc(netname, network_subnet, host_subnet, host_address, state=Non
         host=host,
     )
 
-    files.template(
-        name='Generate hosts config',
-        src=_get_package_filename('templates', 'tinc-host-base.j2'),
-        dest=f'{config_directory}/hosts/{_get_host_name(host)}',
-        host_subnet=host_subnet,
-        host_address=host_address,
+    host_config_file = f'{config_directory}/hosts/{_get_host_name(host)}'
+    host_network = ip_interface(host_network_address)
+
+    files.line(
+        name='Setup the Subnet line in the host config',
+        path=host_config_file,
+        line='^Subnet=',
+        replace=f'Subnet={host_network.network}',
         state=state,
         host=host,
     )
 
-    host_ip = host_subnet.split('/')[0]
-    network_mask_bits = network_subnet.split('/')[1]
-    host_interface_ip = f'{host_ip}/{network_mask_bits}'
+    files.line(
+        name='Setup the Address line in the host config',
+        path=host_config_file,
+        line='^Address=',
+        replace=f'Address={host_public_address}',
+        state=state,
+        host=host,
+    )
+
+    network = ip_network(network_subnet)
+    host_interface_ip = f'{host_network.ip}/{network.prefixlen}'
 
     for script in ('tinc-up', 'tinc-down'):
         files.template(

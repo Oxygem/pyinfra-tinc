@@ -133,7 +133,7 @@ def configure_tinc(netname, network_subnet, host_subnet, host_address, state=Non
             host=host,
         )
 
-    if not host.fact.file(f'{config_directory}/tinc.rsa_key.priv'):
+    if not host.fact.file(f'{config_directory}/rsa_key.priv'):
         server.shell(
             name='Generate Tinc key pair',
             commands=[f'{host.data.tinc_install_prefix}/sbin/tincd -n {netname} -K'],

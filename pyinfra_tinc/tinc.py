@@ -24,7 +24,10 @@ def _get_host_name(host):
 def _install_apt_packages(state, host):
     apt.packages(
         name='Install apt packages to compile Tinc',
-        packages=['build-essential', 'libssl-dev', 'liblzo2-dev', 'zlib1g-dev'],
+        packages=[
+            'build-essential',  # build tools
+            'libssl-dev', 'liblzo2-dev', 'zlib1g-dev',  # libraries
+        ],
         update=True,
         cache_time=3600,
         state=state,
@@ -39,7 +42,10 @@ def _install_yum_or_dnf_packages(state, host):
 
     package_operation(
         name='Install yum packages to compile Tinc',
-        packages=['gcc', 'gcc-c++', 'zlib-devel', 'lzo-devel', 'openssl-devel'],
+        packages=[
+            'gcc', 'gcc-c++', 'make',  # build tools
+            'zlib-devel', 'lzo-devel', 'openssl-devel',  # libraries
+        ],
         state=state,
         host=host,
     )

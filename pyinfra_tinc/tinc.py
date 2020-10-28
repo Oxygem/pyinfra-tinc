@@ -192,6 +192,9 @@ def _sync_tinc_config(state, host, netname, tinc_install_prefix, deploy_kwargs):
         if host is other_host:
             continue
 
+        if not other_host.connected:
+            other_host.connect(reason='to sync Tinc hosts file')
+
         other_host.put_file(
             host_config,
             f'{hosts_directory}/{_get_host_name(host)}',

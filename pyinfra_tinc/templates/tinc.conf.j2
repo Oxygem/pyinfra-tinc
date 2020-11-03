@@ -1,5 +1,5 @@
 Name={{ get_host_name(host) }}
-{% for other_host in state.inventory -%}
+{% for other_host in state.inventory|sort(attribute='name') -%}
     {% if other_host != host -%}
         ConnectTo={{ get_host_name(other_host) }}
     {%- endif %}

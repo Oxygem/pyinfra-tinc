@@ -1,5 +1,5 @@
 from pyinfra import host
-from pyinfra.operations import server
+from pyinfra.operations import systemd
 
 from pyinfra_tinc import configure_tinc, install_tinc, sync_tinc_configurations
 
@@ -26,17 +26,17 @@ install_tinc()
 configure_tinc(
     netname=tinc_netname,
     network_subnet=tinc_network_subnet,
-    host_subnet=tinc_host_ips[host.name],
-    host_address=host.fact.ipv4_addresses['eth1'],
+    host_network_address=tinc_host_ips[host.name],
+    host_public_address=host.fact.ipv4_addresses['eth1'],
 )
 
 # Sync the configuration files between every host
 sync_tinc_configurations(netname=tinc_netname)
 
-# Finally, start or restart Tinc
-server.service(
-    name='Restart the Tinc service',
+# Finally, start & enable the Tinc service
+systemd.service(
+    name='Start & enable the Tinc service',
     service=f'tinc-{tinc_netname}',
     running=True,
-    restarted=True,
+    enabled=True,
 )

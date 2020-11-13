@@ -19,6 +19,7 @@ if __name__ == '__main__':
         author_email='hello@oxygem.com',
         license='MIT',
         packages=find_packages(),
+        python_requires='>=3.6',
         install_requires=('pyinfra~=1.2',),
         include_package_data=True,
     )

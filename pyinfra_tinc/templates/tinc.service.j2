@@ -3,8 +3,8 @@ Description=Tinc net {{ netname }}
 Documentation=info:tinc
 Documentation=man:tinc(8) man:tinc.conf(5)
 Documentation=http://tinc-vpn.org/docs/
-After=network.target
-Wants=network.target
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 Type=simple

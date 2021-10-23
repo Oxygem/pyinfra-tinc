@@ -201,6 +201,7 @@ def _sync_tinc_config(state, host, netname, tinc_install_prefix, deploy_kwargs):
             sudo=deploy_kwargs.get('sudo'),
             sudo_user=deploy_kwargs.get('sudo_user'),
             su_user=deploy_kwargs.get('su_user'),
+            use_sudo_password=deploy_kwargs.get('use_sudo_password'),
         )
 
 
